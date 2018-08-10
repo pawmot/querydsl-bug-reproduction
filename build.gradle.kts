@@ -1,7 +1,5 @@
 plugins {
     java
-    id("org.springframework.boot") version "2.0.2.RELEASE"
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
 }
 
 group = "com.pawmot"
@@ -12,18 +10,15 @@ repositories {
 }
 
 dependencies {
-    implementation("com.querydsl:querydsl-sql-spring:4.2.1")
     implementation("com.querydsl:querydsl-sql-codegen:4.2.1")
 
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.liquibase:liquibase-core")
     implementation("org.postgresql:postgresql:42.2.4")
     implementation("org.testcontainers:postgresql:1.8.1")
 
     compileOnly("org.projectlombok:lombok:1.18.2")
     testCompileOnly("org.projectlombok:lombok:1.18.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.2.0")
     testImplementation("org.assertj:assertj-core:3.10.0")
 }
 
@@ -39,14 +34,6 @@ task<Wrapper>("wrapper") {
     gradleVersion = "4.9"
 }
 
-tasks.withType<JavaCompile> {
-    if (JavaVersion.current() >= JavaVersion.VERSION_1_9) {
-        options.compilerArgs.addAll(arrayOf("--add-modules", "java.xml.bind,java.xml.ws,java.xml.ws.annotation"))
-    }
-}
-
 tasks.withType<Test> {
-    if (JavaVersion.current() >= JavaVersion.VERSION_1_9) {
-        jvmArgs?.addAll(arrayOf("--add-modules", "java.xml.bind,java.xml.ws,java.xml.ws.annotation"))
-    }
+    useJUnitPlatform()
 }
