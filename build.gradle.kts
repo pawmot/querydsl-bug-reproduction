@@ -40,9 +40,13 @@ task<Wrapper>("wrapper") {
 }
 
 tasks.withType<JavaCompile> {
-    options.compilerArgs.addAll(arrayOf("--add-modules", "java.xml.bind,java.xml.ws,java.xml.ws.annotation"))
+    if (JavaVersion.current() >= JavaVersion.VERSION_1_9) {
+        options.compilerArgs.addAll(arrayOf("--add-modules", "java.xml.bind,java.xml.ws,java.xml.ws.annotation"))
+    }
 }
 
 tasks.withType<Test> {
-    jvmArgs?.addAll(arrayOf("--add-modules", "java.xml.bind,java.xml.ws,java.xml.ws.annotation"))
+    if (JavaVersion.current() >= JavaVersion.VERSION_1_9) {
+        jvmArgs?.addAll(arrayOf("--add-modules", "java.xml.bind,java.xml.ws,java.xml.ws.annotation"))
+    }
 }
